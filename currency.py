@@ -1,26 +1,44 @@
-
-class Currency:
-    def __init__(self, amount, currency_code):
+class Currency():
+    def __init__(self, code, amount):
+        self.code = code
         self.amount = amount
-        self.currency_code = currency_code
-​
-    def __eq__(self, other):
-        return self.amount == other.amount and self.currency_code == other.currency_code
-​
-
-    def __ne__(self, other):
-        return self.amount != other.amount and self.currency_code != other.currency_code
-​
-    def __sub__(self, other):
-        if self.currency_code == other.currency_code:
-            return Currency(self.amount - other.amount, self.currency_code)
+    def __str__(self):
+        return str(self.amount) + ' ' + self.code
+    def is_code(self, code):
+        if self.code == code:
+            return True
         else:
-            raise Exception ("You tried to add currencies of different countries!")
-
-
-    def __add__(self, other):
-        if self.currency_code == other.currency_code:
-            return Currency(self.amount + other.amount, self.currency_code)
+            return False
+    def __eq__(self, code, amount):
+        if self.code == code and self.amount == amount:
+            return True
         else:
-            raise Exception ("You tried to add currencies of different countries!")
-​
+            return False
+    def __add__(self, code, amount):
+        if is_code(self, code):
+            added = self.amount + amount
+            return added
+        else:
+            raise DifferentCurrencyCodeError ("Currency Codes don't match")
+    def subtract(self, code, amount):
+        if is_code(self, code):
+            subtracted = self.amount - amount
+            return subtracted
+        else:
+            raise DifferentCurrencyCodeError ("Currency Codes don't match")
+    def __mul__(self, code, amount, number):
+        if is_code(self, code):
+            multiplied = self.amount * float(number)
+            return multiplied
+        else:
+            raise DifferentCurrencyCodeError ("Currency Codes don't match")
+    def which_code(self, code):
+        code_dict = {'$':'USD', '€':'EUR', '¥':'JPY'}
+        if '$' in code_dict.keys():
+            code = 'USD'
+        elif '€' in code_dict.keys():
+            code = 'EUR'
+        elif '¥' in code_dict.keys():
+            code = 'JPY'
+        else:
+            None
